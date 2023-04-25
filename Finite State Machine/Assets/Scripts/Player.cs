@@ -2,7 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-
+    #region Variable
+    /// <summary>
+    /// Player 상태 별 enum 선언
+    /// </summary>
     public enum ePlayerState {
         Idle,
         Run,
@@ -11,23 +14,16 @@ public class Player : MonoBehaviour {
     }
 
     private StateMachine stateMachine;
-    private Rigidbody rigidbody = null;
     private Dictionary<ePlayerState, IState> playerStateDic = new Dictionary<ePlayerState, IState>();
     private bool isGrounded = false;
+    #endregion
+
+    #region Life Cycle
 
     private void Awake() {
-        rigidbody = null ?? gameObject.GetComponent<Rigidbody>();
+        AddStateToDic();
 
-        playerStateDic.Add(ePlayerState.Idle, new StateIdle());
-        playerStateDic.Add(ePlayerState.Run, new StateRun());
-        playerStateDic.Add(ePlayerState.Jump, new StateJump());
-        playerStateDic.Add(ePlayerState.Dead, new StateDead());
-
-        stateMachine = new StateMachine(playerStateDic[ePlayerState.Idle], rigidbody);
-    }
-
-    private void Start() {
-
+        stateMachine = new StateMachine(playerStateDic[ePlayerState.Idle], GetComponent<Rigidbody>());
     }
 
     private void Update() {
@@ -38,7 +34,38 @@ public class Player : MonoBehaviour {
         stateMachine.DoOperateUpdate();
     }
 
+    public void OnCollisionEnter(Collision collision) {
+        if (collision == null) return;
 
+        switch (collision.gameObject.name) {
+            case "Enemy":
+                stateMachine.SetState(playerStateDic[ePlayerState.Dead]);
+                break;
+            case "Plane":
+                stateMachine.SetState(playerStateDic[ePlayerState.Idle]);
+                isGrounded = true;
+                break;
+            default: break;
+        }
+    }
+    #endregion
+
+    #region Essential Function
+    /// <summary>
+    /// 상태 별 State를 Dictinary에 추가시켜 둠.
+    /// </summary>
+    private void AddStateToDic() {
+        playerStateDic.Add(ePlayerState.Idle, new StateIdle());
+        playerStateDic.Add(ePlayerState.Run, new StateRun());
+        playerStateDic.Add(ePlayerState.Jump, new StateJump());
+        playerStateDic.Add(ePlayerState.Dead, new StateDead());
+    }
+    #endregion
+
+    #region Definition Function
+    /// <summary>
+    /// 키보드 입력에 따른 State 제어
+    /// </summary>
     private void KeyboardInputReceiver() {
         if (stateMachine.CurrentState == playerStateDic[ePlayerState.Dead]) return;
 
@@ -57,19 +84,6 @@ public class Player : MonoBehaviour {
             stateMachine.SetState(playerStateDic[ePlayerState.Idle]);
         }
     }
+    #endregion
 
-    public void OnCollisionEnter(Collision collision) {
-        if (collision == null) return;
-
-        switch (collision.gameObject.name) {
-            case "Enemy":
-                stateMachine.SetState(playerStateDic[ePlayerState.Dead]);
-                break;
-            case "Plane":
-                stateMachine.SetState(playerStateDic[ePlayerState.Idle]);
-                isGrounded = true;
-                break;
-            default: break;
-        }
-    }
 }

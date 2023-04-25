@@ -14,7 +14,7 @@ public class StateRun : IState {
         movement.Set(horizontal, 0, 0);
         movement = movement.normalized * 5 * Time.deltaTime;
 
-        rigidbody.MovePosition(rigidbody.position + movement);
+        this.rigidbody.MovePosition(this.rigidbody.position + movement);
     }
 
     public void OperateExit() {
