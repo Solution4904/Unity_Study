@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "21267978482",
+    "project_id": "unity-firebase-example-596eb",
+    "storage_bucket": "unity-firebase-example-596eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21267978482:android:fd5eba73ba500436fa586b",
+        "android_client_info": {
+          "package_name": "app.solution.example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "21267978482-gps8t658irjvbt4pm8gjhnoqr20ckh1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1kOcVPSOiwQQi-TGdDa5bZXVxfFA7-HE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "21267978482-gps8t658irjvbt4pm8gjhnoqr20ckh1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
