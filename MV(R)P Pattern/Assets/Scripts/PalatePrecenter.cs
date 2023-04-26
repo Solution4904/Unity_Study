@@ -3,10 +3,13 @@ using UniRx;
 using UnityEngine;
 
 public class PalatePrecenter : MonoBehaviour {
+    #region Variable
     private Palate palate;
     private PalateSlider palateSlider;
     private TextMeshProUGUI palateText;
+    #endregion
 
+    #region Life Cycle
     private void Awake() {
         palate = null ?? FindObjectOfType<Palate>();
         palateSlider = null ?? FindObjectOfType<PalateSlider>();
@@ -27,4 +30,5 @@ public class PalatePrecenter : MonoBehaviour {
             palateSlider._color.Value = x;
         }).AddTo(this);
     }
+    #endregion
 }
